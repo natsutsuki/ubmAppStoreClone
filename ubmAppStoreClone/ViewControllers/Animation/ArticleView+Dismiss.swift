@@ -31,7 +31,12 @@ class ArticleViewDismissTransitioning: NSObject, UIViewControllerAnimatedTransit
         /* 图层准备完毕，开始动画 */
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: UIView.AnimationOptions.curveLinear, animations: {
             for case let view in transitionContext.containerView.subviews {
-                if view != fromView {
+                guard view != fromView else { continue }
+                
+                if let visualView = view as? UIVisualEffectView {
+                    visualView.effect = nil
+                }
+                else {
                     view.alpha = 0
                 }
             }
